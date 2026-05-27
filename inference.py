@@ -9,8 +9,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
-import albumentations as A
-from albumentations.pytorch.transforms import ToTensorV2
 from PIL import Image
 
 
@@ -71,11 +69,11 @@ class _TuningGradCAM(nn.Module):
 
 # ── Preprocessing ─────────────────────────────────────────────────────────────
 
-def _get_transform():
-    return A.Compose(
-        [A.Normalize(0.5, 0.5), ToTensorV2()],
-        additional_targets={'image2': 'image', 'image3': 'image'},
-    )
+def _to_tensor(gray: np.ndarray) -> torch.Tensor:
+    """Normalize grayscale [0,255] → [-1,1] and add batch+channel dims."""
+    t = torch.from_numpy(gray.astype(np.float32) / 255.0)
+    t = (t - 0.5) / 0.5
+    return t.unsqueeze(0).unsqueeze(0)  # [1, 1, H, W]
 
 
 def _crop_clahe(bgr: np.ndarray) -> np.ndarray:
@@ -133,17 +131,14 @@ def run_inference(ext_bytes: bytes, flx_bytes: bytes, neu_bytes: bytes,
         }
     """
     model = load_model(weight_path)
-    tf    = _get_transform()
 
-    originals, grays, tensors = [], [], []
+    originals, tensors = [], []
     for raw in (ext_bytes, flx_bytes, neu_bytes):
         bgr  = _pil_to_bgr(raw)
         orig_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
         originals.append(orig_gray)
         gray = _crop_clahe(bgr)
-        grays.append(gray)
-        t = tf(image=gray, image2=gray, image3=gray)['image']
-        tensors.append(t.unsqueeze(0))
+        tensors.append(_to_tensor(gray))
 
     t1, t2, t3 = tensors
 

@@ -1,8 +1,7 @@
 torch==2.1.2
 torchvision==0.16.2
-opencv-python-headless==4.9.0.80
-albumentations==1.4.4
-Pillow==10.3.0
-numpy==1.26.4
+opencv-python-headless
+Pillow
+numpy
 requests
 streamlit
