@@ -152,8 +152,6 @@ if "result" in st.session_state:
         unsafe_allow_html=True,
     )
 
-    st.progress(prob, text=f"Stenosis probability: {pct:.1f}%")
-
     # Grad-CAM heatmaps
     st.subheader("Grad-CAM 히트맵")
     st.caption("붉은 영역은 모델이 협착증이라고 판단한 부위입니다.")
