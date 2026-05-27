@@ -5,4 +5,4 @@ opencv-python-headless
 albumentations==1.4.4
 Pillow
 numpy
-gdown
+requests
