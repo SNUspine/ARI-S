@@ -30,6 +30,7 @@ with _c1:
 - ✅ 인터넷 연결 불필요
 - ✅ 설치 없이 실행 (독립 실행형)
 - ✅ **DICOM · JPG · PNG · BMP** 지원
+- ✅ 고해상도 이미지를 손실없이 분석가능
 - ✅ 확률(%)과 의심부위를 색으로 표시
 - ✅ 결과 이미지 저장 가능
 """)
@@ -41,6 +42,7 @@ with _c2:
         st.markdown("""
 - 🌐 브라우저에서 바로 사용 
 - 📁 **JPG · PNG · BMP** 지원
+- ⚡ 이미지를 300x350 pixel로 압축하여 분석하여 정확도  
 - 🧠 결과 이미지 다운로드 불가
 """)
 
@@ -154,7 +156,7 @@ if "result" in st.session_state:
 
     # Grad-CAM heatmaps
     st.subheader("Grad-CAM 히트맵")
-    st.caption("붉은 영역일수록 모델이 협착증 판단에 주목한 부위입니다.")
+    st.caption("붉은 영역은 모델이 협착증이라고 판단한 부위입니다.")
 
     view_labels = {"ext": "Extension (신전위)", "flx": "Flexion (굴곡위)", "neu": "Neutral (중립위)"}
     hc1, hc2, hc3 = st.columns(3)
