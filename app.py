@@ -170,14 +170,16 @@ if "result" in st.session_state:
     # Download heatmap images
     st.subheader("결과 이미지 다운로드")
     dl_cols = st.columns(3)
+    clicked = False
     for col, view in zip(dl_cols, ("ext", "flx", "neu")):
         with col:
-            img_bgr = result["heatmaps"][f"{view}_sten"]
-            _, png_bytes = cv2.imencode(".png", img_bgr)
-            st.download_button(
-                label=f"📥 {view_labels[view]}",
-                data=png_bytes.tobytes(),
-                file_name=f"aris_gradcam_{view}.png",
-                mime="image/png",
-                use_container_width=True,
-            )
+            if st.button(f"📥 {view_labels[view]}", key=f"dl_{view}", use_container_width=True):
+                clicked = True
+
+    if clicked:
+        st.warning(
+            "**결과 이미지 저장은 Desktop 버전 전용 기능입니다.**\n\n"
+            "Desktop 버전은 DICOM을 포함한 모든 이미지 형식을 지원하며, "
+            "고해상도 결과 이미지 저장, 인터넷 없이 사용 등 더 많은 기능을 제공합니다.\n\n"
+            "📧 구매 문의: **imspinesurgeon@gmail.com**"
+        )
