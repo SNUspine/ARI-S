@@ -84,7 +84,7 @@ def _crop_clahe(bgr: np.ndarray) -> np.ndarray:
         crop = bgr[max(0, ch - hc//2): ch + hc//2]
     else:
         crop = bgr[ch - 700: ch + 700, cw - 600: cw + 600]
-    res = cv2.resize(crop, (600, 700))
+    res = cv2.resize(crop, (300, 350))
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     return clahe.apply(res[:, :, 0])
 
