@@ -110,7 +110,7 @@ def load_model(weight_path: str) -> _SpineMPModel:
     global _model
     if _model is None:
         m = _SpineMPModel()
-        m.load_state_dict(torch.load(weight_path, map_location='cpu'))
+        m.load_state_dict(torch.load(weight_path, map_location='cpu', weights_only=False))
         m.eval()
         _model = m
     return _model

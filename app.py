@@ -30,7 +30,8 @@ with _c1:
 - ✅ 인터넷 연결 불필요
 - ✅ 설치 없이 실행 (독립 실행형)
 - ✅ **DICOM · JPG · PNG · BMP** 지원
-- ⚡ 대용량 배치 처리
+- ✅ 확률(%)과 의심부위를 색으로 표시
+- ✅ 결과 이미지 저장 가능
 """)
         st.markdown("📧 구매 문의: [imspinesurgeon@gmail.com](mailto:imspinesurgeon@gmail.com)")
 
@@ -38,10 +39,9 @@ with _c2:
     with st.container(border=True):
         st.markdown("### 🌐 Web Version")
         st.markdown("""
-- 🌐 브라우저에서 바로 사용 — 설치 불필요
+- 🌐 브라우저에서 바로 사용 
 - 📁 **JPG · PNG · BMP** 지원
-- 🧠 Multi-Pose ResNet50 + Grad-CAM 시각화
-- 📊 결과 이미지 다운로드 가능
+- 🧠 결과 이미지 다운로드 불가
 """)
 
 st.divider()
@@ -75,26 +75,26 @@ with col_ext:
     st.markdown("**Extension (신전위)**")
     ext_file = st.file_uploader("EXT", type=["jpg", "jpeg", "png", "bmp"], key="ext", label_visibility="collapsed")
     if ext_file:
-        st.image(ext_file, use_container_width=True)
+        st.image(ext_file, width='stretch')
 
 with col_flx:
     st.markdown("**Flexion (굴곡위)**")
     flx_file = st.file_uploader("FLX", type=["jpg", "jpeg", "png", "bmp"], key="flx", label_visibility="collapsed")
     if flx_file:
-        st.image(flx_file, use_container_width=True)
+        st.image(flx_file, width='stretch')
 
 with col_neu:
     st.markdown("**Neutral (중립위)**")
     neu_file = st.file_uploader("NEU", type=["jpg", "jpeg", "png", "bmp"], key="neu", label_visibility="collapsed")
     if neu_file:
-        st.image(neu_file, use_container_width=True)
+        st.image(neu_file, width='stretch')
 
 # ── Analyze button ────────────────────────────────────────────────────────────
 
 st.divider()
 
 if ext_file and flx_file and neu_file:
-    if st.button("🔍 분석 시작", type="primary", use_container_width=True):
+    if st.button("🔍 분석 시작", type="primary", width='stretch'):
         with st.spinner("AI 분석 중..."):
             try:
                 result = run_inference(
@@ -165,7 +165,7 @@ if "result" in st.session_state:
     for col, view in zip((hc1, hc2, hc3), ("ext", "flx", "neu")):
         with col:
             st.markdown(f"**{view_labels[view]}**")
-            st.image(_bgr_to_pil(result["heatmaps"][f"{view}_sten"]), use_container_width=True)
+            st.image(_bgr_to_pil(result["heatmaps"][f"{view}_sten"]), width='stretch')
 
     # Download heatmap images
     st.subheader("결과 이미지 다운로드")
@@ -179,5 +179,5 @@ if "result" in st.session_state:
                 data=png_bytes.tobytes(),
                 file_name=f"aris_gradcam_{view}.png",
                 mime="image/png",
-                use_container_width=True,
+                width='stretch',
             )
