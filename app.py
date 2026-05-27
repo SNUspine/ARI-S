@@ -94,7 +94,7 @@ with col_neu:
 st.divider()
 
 if ext_file and flx_file and neu_file:
-    if st.button("🔍 분석 시작", type="primary", width='stretch'):
+    if st.button("🔍 분석 시작", type="primary", use_container_width=True):
         with st.spinner("AI 분석 중..."):
             try:
                 result = run_inference(
@@ -179,5 +179,5 @@ if "result" in st.session_state:
                 data=png_bytes.tobytes(),
                 file_name=f"aris_gradcam_{view}.png",
                 mime="image/png",
-                width='stretch',
+                use_container_width=True,
             )
