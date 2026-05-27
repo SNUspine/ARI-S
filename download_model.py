@@ -5,7 +5,7 @@ Priority: local file → download from private HuggingFace repo (token auth)
 import os
 
 MODEL_FILENAME = "Multi_Pose_ResNet50_v221223.pth"
-MODEL_URL = "PLACEHOLDER"   # replace after HF upload
+MODEL_URL = "https://huggingface.co/cheasther/ARI-S-weights/resolve/main/Multi_Pose_ResNet50_v221223.pth"
 
 
 def get_model_path() -> str:
